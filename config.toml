@@ -1,0 +1,17 @@
+base_url = "https://jingsenzhu.github.io/bayesian-nbv-page"
+theme = "academic-paper"
+compile_sass = true
+build_search_index = false
+generate_feeds = false
+minify_html = true
+
+[markdown]
+bottom_footnotes = true
+highlighting.light_theme = "github-light"
+highlighting.dark_theme = "github-dark"
+smart_punctuation = true
+
+[extra]
+favicon = false
+large_card = true
+server_side_katex = true
