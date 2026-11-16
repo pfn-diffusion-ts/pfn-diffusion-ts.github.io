@@ -10,7 +10,7 @@ authors = [
 ]
 venue = {name = "NeurIPS", date = 2026-12-06, url = "https://neurips.cc/Conferences/2026"}
 buttons = [
-    %%{name = "Paper", url = ""},%%
+    # {name = "Paper", url = ""},
     {name = "PDF", url = "https://arxiv.org/pdf/2611.14656"},
     {name = "Code", url = "https://github.com/sihwa-park/PFN-Thompson-Sampling"},
 ]
@@ -39,9 +39,9 @@ However, much of this work comes with bespoke training loss functions or regular
 
 In our work, we suggest a framework doing in-context Thompson sampling using pre-trained diffusion transformers [^dit] while keeping the pipeline simple and rooted in decision-theoretic principles.
 
-{% <figure alt={["PFN-Thompson-sampling"]} src={["overview.pdf"]} dark_invert={[true]}> %}
+{% figure(alt=["PFN-Thompson-sampling"], src=["overview.pdf"], dark_invert=[true]) %}
 **Figure 1.** A visual illustration of our pipeline.
-{% </figure> %}
+{% end %}
 
 In this framework, we sample objective functions `$f$` from our prior and build datasets of input-output pairs to feed into transformers.
 Through cross-attention, this information is fused with a sampled diffusion time step `$t$` and intermediate state `$z_t$`.
@@ -63,13 +63,13 @@ We propose unimodal priors for the envelope and two wiggle priors in the paper.
 
 We tested our method on both synthetic and empirical benchmark against diffusion-based and GP-based baselines, as shown in the below.
 
-{% <figure alt={["Synthetic"]} src={["synthetic.pdf"]} dark_invert={[true]}> %}
+{% figure(alt=["Synthetic"], src=["synthetic.pdf"], dark_invert=[true]) %}
 **Figure 2.** Comparison of regret in a potentially-model-mismatched setting, where the objectives are given by synthetic benchmark functions under various priors.
-{% </figure> %}
+{% end %}
 
-{% <figure alt={["Empirical"]} src={["empirical.pdf"]} dark_invert={[true]}> %}
+{% figure(alt=["Empirical"], src=["empirical.pdf"], dark_invert=[true]) %}
 **Figure 3.** Comparison of regret on empirical benchmarks, in order to evaluate potential behavior in practice.
-{% </figure> %}
+{% end %}
 
 
 # Conclusion
