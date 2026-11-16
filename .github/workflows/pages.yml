@@ -1,6 +1,6 @@
 name: Build and Deploy Website
 
-# Builds this Zola site and serves it at https://papers-pfn-diffusion-ts.sihwa.ai/
+# Builds this Zola site and serves it at https://pfn-diffusion-ts.github.io/
 # Adapted from the academic-paper theme's own deploy workflow.
 
 on:
