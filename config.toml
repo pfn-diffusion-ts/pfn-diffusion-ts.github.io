@@ -1,4 +1,4 @@
-base_url = "https://jingsenzhu.github.io/bayesian-nbv-page"
+base_url = "https://sihwa.github.io/academic-paper/"
 theme = "academic-paper"
 compile_sass = true
 build_search_index = false
