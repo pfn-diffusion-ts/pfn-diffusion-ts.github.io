@@ -1,6 +1,6 @@
 name: Build and Deploy Website
 
-# Builds this Zola site and serves it at https://papers.sihwa.ai/pfn-ts/
+# Builds this Zola site and serves it at https://papers-pfn-ts.sihwa.ai/
 # Adapted from the academic-paper theme's own deploy workflow.
 
 on:
@@ -46,22 +46,10 @@ jobs:
       - name: Copy KaTeX CSS and fonts
         run: cp node_modules/katex/dist/katex.min.css public; cp -r node_modules/katex/dist/fonts public/fonts
         if: ${{ env.SERVER_SIDE_KATEX == 'true' }}
-      - name: Place site under /pfn-ts/
-        run: |
-          mkdir _site
-          mv public _site/pfn-ts
-          # papers.sihwa.ai/ itself redirects to the paper page
-          cat > _site/index.html <<'EOF'
-          <!doctype html>
-          <meta charset="utf-8">
-          <meta http-equiv="refresh" content="0; url=/pfn-ts/">
-          <link rel="canonical" href="https://papers.sihwa.ai/pfn-ts/">
-          <a href="/pfn-ts/">papers.sihwa.ai/pfn-ts/</a>
-          EOF
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./_site
+          path: ./public
   deploy:
     needs: build
     runs-on: ubuntu-latest
