@@ -10,7 +10,7 @@ authors = [
 ]
 venue = {name = "NeurIPS", date = 2026-12-06, url = "https://neurips.cc/Conferences/2026"}
 buttons = [
-    # {name = "Paper", url = ""},
+    {name = "Paper", url = "https://arxiv.org/pdf/2611.14656"},
     {name = "PDF", url = "https://arxiv.org/pdf/2611.14656"},
     {name = "Code", url = "https://github.com/sihwa-park/PFN-Thompson-Sampling"},
 ]
@@ -29,7 +29,7 @@ We built a set of non-Gaussian priors for general black-box optimization, and ou
 We are interested in a global optimization problem where we want to find the global optimum of an unknown function `$f : X\to\R$` in a sample-efficient setting.
 We assume every evaluation is expensive, so we must balance exploring uncertain regions with exploiting promising observations -- the exploration-exploitation tradeoff.
 Bayesian optimization with Gaussian processes (GPs) is a classic approach to this type of problem, but the surrogate is restricted to Gaussian priors [^bayesopt-book] .
-More recently, prior-fitted networks (PFNs) have shown that transformers can approximate the posterior predictive distribution `$p(y \mid D, x)`, suggesting a meta-learning scheme for optimization [^pfn] [^pfns4bo] [^tabpfn].
+More recently, prior-fitted networks (PFNs) have shown that transformers can approximate the posterior predictive distribution `$p(y \mid D, x)$`, suggesting a meta-learning scheme for optimization [^pfn] [^pfns4bo] [^tabpfn].
 PFNs support flexible priors while shifting the training burden to the pre-training stage, but need output discretization to represent predictive distributions and still require a decision rule after quantifying uncertainty.
 Meanwhile, with the huge success of diffusion models in computer vision, there has been more work using expressive generative models for black-box optimization.
 However, much of this work comes with bespoke training loss functions or regularizers to handle the exploration-exploitation tradeoff [^ddom] [^dibo] [^diff-bbo].
