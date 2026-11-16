@@ -1,0 +1,74 @@
+name: Build and Deploy Website
+
+# Builds this Zola site and serves it at https://papers.sihwa.ai/pfn-ts/
+# Adapted from the academic-paper theme's own deploy workflow.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+      - name: Download Zola
+        run: curl -fLsS "https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz" | tar xzf - -C /usr/local/bin
+      - name: Verify Zola binary
+        run: echo "45de6b2559aba4df42199dc6b0161acb914d37be4ccaa03297cd4a26c8e14042  /usr/local/bin/zola" | shasum -a 256 -b -c --strict
+      - name: Build website
+        run: zola build
+      - name: Check for server side KaTeX
+        run: grep -c "server_side_katex\s*=\s*true" config.toml | sed s/1/SERVER_SIDE_KATEX=true/ | sed s/0/SERVER_SIDE_KATEX=false/ >> $GITHUB_ENV
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        if: ${{ env.SERVER_SIDE_KATEX == 'true' }}
+      - name: Install KaTeX
+        run: npm install katex
+        if: ${{ env.SERVER_SIDE_KATEX == 'true' }}
+      - name: Render KaTeX
+        run: node themes/academic-paper/scripts/katex.js
+        if: ${{ env.SERVER_SIDE_KATEX == 'true' }}
+      - name: Copy KaTeX CSS and fonts
+        run: cp node_modules/katex/dist/katex.min.css public; cp -r node_modules/katex/dist/fonts public/fonts
+        if: ${{ env.SERVER_SIDE_KATEX == 'true' }}
+      - name: Place site under /pfn-ts/
+        run: |
+          mkdir _site
+          mv public _site/pfn-ts
+          # papers.sihwa.ai/ itself redirects to the paper page
+          cat > _site/index.html <<'EOF'
+          <!doctype html>
+          <meta charset="utf-8">
+          <meta http-equiv="refresh" content="0; url=/pfn-ts/">
+          <link rel="canonical" href="https://papers.sihwa.ai/pfn-ts/">
+          <a href="/pfn-ts/">papers.sihwa.ai/pfn-ts/</a>
+          EOF
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,4 +1,4 @@
-base_url = "https://sihwa.ai/pfn-ts/"
+base_url = "https://papers.sihwa.ai/pfn-ts/"
 theme = "academic-paper"
 compile_sass = true
 build_search_index = false
