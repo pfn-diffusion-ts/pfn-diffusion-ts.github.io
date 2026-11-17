@@ -4,8 +4,8 @@ title = "Thompson Sampling using Prior-fitted Diffusion Transformers"
 authors = [
     {name = "Sihwa Park*", url = "https://sihwa.ai"},
     {name = "Jingsen Zhu*", url = "https://jingsenzhu.github.io/"},
-    {name = "Vinamr Jain", url = ""},
-    {name = "Sheng-Yen Chou", url = ""},
+    {name = "Vinamr Jain", url = "https://vinamr.dev"},
+    {name = "Sheng-Yen Chou", url = "https://frankccccc.github.io/"},
     {name = "Alexander Terenin", url = "https://avt.im/"},
 ]
 venue = {name = "NeurIPS", date = 2026-12-06, url = "https://neurips.cc/Conferences/2026"}
