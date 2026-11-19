@@ -46,6 +46,10 @@ Through cross-attention, this information is fused with a sampled diffusion time
 Unlike the original PFN, our target distribution is the posterior distribution over the maximizer, and we adopt diffusion models with a flow-matching loss [^flow-matching] to learn this distribution.
 Hence, a diffusion transformer learns to approximate the distribution over maximizers during training with some priors, and at inference (when solving the actual optimization problem) does Thompson sampling in context.
 
+The suggested framework doesn't need any specialized losses, regularizers, or multiple models interacting in a non-trivial way, but simply learns the target distribution through a diffusion model.
+Also, it gives a clean way to do Thompson sampling in a Bayesian setting and still allows great flexibility in the choice of priors, which we discuss in the next section.
+
+
 # Non-Gaussian Priors
 
 This framework is not limited to Gaussian priors.
@@ -83,7 +87,7 @@ One uses a fixed lengthscale with RFFs, and the other uses different lengthscale
 # Experiments
 
 We tested our method on both synthetic and empirical benchmark against diffusion-based and GP-based baselines, as shown in the below.
-At least one of our priors shows matching or better performance in almost all cases.
+The results show that at least one of our priors shows matching or better performance in almost all cases.
 Our approach is denoted as PFN with different priors in parentheses where EWP-GP and EWP-U represent the two different wiggle priors.
 
 {% figure(alt=["Synthetic"], src=["synthetic.svg"], dark_invert=[true]) %}
