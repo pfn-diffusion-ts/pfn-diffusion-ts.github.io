@@ -24,8 +24,6 @@ We built a set of non-Gaussian priors for general black-box optimization, and ou
 
 ---
 
-# Background
-
 We are interested in a global optimization problem where we want to find the global optimum of an unknown function `$f : X\to\R$` in a sample-efficient setting.
 We assume every evaluation is expensive, so we must balance exploring uncertain regions with exploiting promising observations -- the exploration-exploitation tradeoff.
 Bayesian optimization with Gaussian processes (GPs) is a classic approach to this type of problem, but the surrogate is restricted to Gaussian priors [^bayesopt-book] .
@@ -43,25 +41,50 @@ In our work, we suggest a framework doing in-context Thompson sampling using pre
 **Figure 1.** A visual illustration of our pipeline.
 {% end %}
 
-In this framework, we sample objective functions `$f$` from our prior and build datasets of input-output pairs to feed into transformers.
+While training, we first sample objective functions `$f$` from our prior and build datasets of input-output pairs to feed into transformers.
 Through cross-attention, this information is fused with a sampled diffusion time step `$t$` and intermediate state `$z_t$`.
 Unlike the original PFN, our target distribution is the posterior distribution over the maximizer, and we adopt diffusion models with a flow-matching loss [^flow-matching] to learn this distribution.
+Hence, a diffusion transformer learns to approximate the distribution over maximizers during training with some priors, and at inference (when solving the actual optimization problem) does Thompson sampling in context.
 
-# Priors
+# Non-Gaussian Priors
+
+This framework is not limited to Gaussian priors.
+In other words, we can design our own priors with characteristics that Gaussian processes cannot capture such as priors over unimodal functions.
 
 We propose a non-Gaussian prior family for general optimization problem, called the _envelope-plus-wiggles prior_, where we have a smooth envelope shape around the maximizer and wiggles as you move away from the maximizer.
+This construction mirrors many global optimization benchmarks, which have a single global optimum surrounded by many local optima.
 Concretely, we propose the family
 ```
 $$
 f(x) = E(x; x^*) + g(x)\, W(x),
 $$
 ```
-where `$x^*$` is sampled uniformly over the domain, `$E$` and `$W$` are the _envelope_ and _wiggles_.
-We propose unimodal priors for the envelope and two wiggle priors in the paper.
+where `$x^*$` is sampled uniformly over the domain, `$E$` and `$W$` are the _envelope_ and _wiggles_, and `$g$` is a gate function, such as a sigmoid, that controls how much of the wiggles are added to the envelope.
+
+We propose a unimodal prior for the envelope,
+```
+$$
+E(x; x^*) = \alpha - \Vert n(x) - n(x^*) \Vert^2,
+$$
+```
+where `$\alpha$` is a randomly-sampled optimum height and `$n$` is a warping function.
+If `$n$` is the identity, this is simply a quadratic.
+To obtain a more general prior with distortions, we take `$n$` to be an untrained normalizing flow.
+Its randomly initialized weights create a random warping, while we can still control its strength with the standard deviation of the distribution where we initialize the weights.
+Since this is a bijective transformation, the unimodality is still preserved.
+
+{% figure(alt=["Prior-examples"], src=["prior_3d.svg"], dark_invert=[true]) %}
+**Figure 2.** A few sampled functions from the unimodal and EWP priors in 2D.
+{% end %}
+
+We also propose two wiggle priors based on GPs using random Fourier features (RFFs) in the paper.
+One uses a fixed lengthscale with RFFs, and the other uses different lengthscales for different frequencies in RFFs.
 
 # Experiments
 
 We tested our method on both synthetic and empirical benchmark against diffusion-based and GP-based baselines, as shown in the below.
+At least one of our priors shows matching or better performance in almost all cases.
+Our approach is denoted as PFN with different priors in parentheses where EWP-GP and EWP-U represent the two different wiggle priors.
 
 {% figure(alt=["Synthetic"], src=["synthetic.svg"], dark_invert=[true]) %}
 **Figure 2.** Comparison of regret in a potentially-model-mismatched setting, where the objectives are given by synthetic benchmark functions under various priors.
@@ -71,11 +94,15 @@ We tested our method on both synthetic and empirical benchmark against diffusion
 **Figure 3.** Comparison of regret on empirical benchmarks, in order to evaluate potential behavior in practice.
 {% end %}
 
+One interesting thing is that the best-performing prior varies across input dimensions and benchmarks.
+This is indeed intuitive, since the right exploration-exploitation trade-off should depend on the problem landscape and observations, and training with different priors can give the model more options to handle these better.
 
 # Conclusion
 In this work, we suggest a framework that performs Thompson sampling in-context with diffusion transformers.
 Our results show that our method performs strong on various benchmarks when trained on the carefully designed priors.
 This work is particularly interesting because it suggests a new way to build and pre-train foundation models for optimization problems.
+More broadly, in black-boax optimization it is still unclear how we can define a dataset to build this type of foundation model and design its architecture.
+We believe that our work suggests one principled way to build such a dataset, an architecture, and a framework to train a model based on a Bayesian approach.
 
 
 # Citation
