@@ -47,7 +47,7 @@ Unlike the original PFN, our target distribution is the posterior distribution o
 Hence, a diffusion transformer learns to approximate the distribution over maximizers during training with some priors, and at inference (when solving the actual optimization problem) does Thompson sampling in context.
 
 The suggested framework doesn't need any specialized losses, regularizers, or multiple models interacting in a non-trivial way, but simply learns the target distribution through a diffusion model.
-Also, it gives a clean way to do Thompson sampling in a Bayesian setting and still allows great flexibility in the choice of priors, which we discuss in the next section.
+Also, it gives a clean way to do Thompson sampling in a Bayesian setting and still allows great flexibility in the choice of priors.
 
 
 # Non-Gaussian Priors
@@ -74,7 +74,7 @@ $$
 where `$\alpha$` is a randomly-sampled optimum height and `$n$` is a warping function.
 If `$n$` is the identity, this is simply a quadratic.
 To obtain a more general prior with distortions, we take `$n$` to be an untrained normalizing flow.
-Its randomly initialized weights create a random warping, while we can still control its strength with the standard deviation of the distribution where we initialize the weights.
+Its randomly initialized weights create a random warping, while we can still control its strength with the standard deviation of the normal distribution where we initialize the weights.
 Since this is a bijective transformation, the unimodality is still preserved.
 
 {% figure(alt=["Prior-examples"], src=["prior_3d.svg"], dark_invert=[true]) %}
@@ -87,7 +87,6 @@ One uses a fixed lengthscale with RFFs, and the other uses different lengthscale
 # Experiments
 
 We tested our method on both synthetic and empirical benchmark against diffusion-based and GP-based baselines, as shown in the below.
-The results show that at least one of our priors shows matching or better performance in almost all cases.
 Our approach is denoted as PFN with different priors in parentheses where EWP-GP and EWP-U represent the two different wiggle priors.
 
 {% figure(alt=["Synthetic"], src=["synthetic.svg"], dark_invert=[true]) %}
@@ -98,12 +97,13 @@ Our approach is denoted as PFN with different priors in parentheses where EWP-GP
 **Figure 3.** Comparison of regret on empirical benchmarks, in order to evaluate potential behavior in practice.
 {% end %}
 
-One interesting thing is that the best-performing prior varies across input dimensions and benchmarks.
+The results show that at least one of our priors shows matching or better performance in almost all cases, while baselines perform inconsistently across problem sets.
+We also find that the best-performing prior varies across input dimensions and benchmarks.
 This is indeed intuitive, since the right exploration-exploitation trade-off should depend on the problem landscape and observations, and training with different priors can give the model more options to handle these better.
 
 # Conclusion
 In this work, we suggest a framework that performs Thompson sampling in-context with diffusion transformers.
-Our results show that our method performs strong on various benchmarks when trained on the carefully designed priors.
+Our results show that our method performs strong on various benchmarks when trained on the carefully-designed priors.
 This work is particularly interesting because it suggests a new way to build and pre-train foundation models for optimization problems.
 More broadly, in black-boax optimization it is still unclear how we can define a dataset to build this type of foundation model and design its architecture.
 We believe that our work suggests one principled way to build such a dataset, an architecture, and a framework to train a model based on a Bayesian approach.
