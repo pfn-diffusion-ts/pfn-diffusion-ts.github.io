@@ -90,11 +90,11 @@ We tested our method on both synthetic and empirical benchmark against diffusion
 Our approach is denoted as PFN with different priors in parentheses where EWP-GP and EWP-U represent the two different wiggle priors.
 
 {% figure(alt=["Synthetic"], src=["synthetic.svg"], dark_invert=[true]) %}
-**Figure 2.** Comparison of regret in a potentially-model-mismatched setting, where the objectives are given by synthetic benchmark functions under various priors.
+**Figure 3.** Comparison of regret in a potentially-model-mismatched setting, where the objectives are given by synthetic benchmark functions under various priors.
 {% end %}
 
 {% figure(alt=["Empirical"], src=["empirical.svg"], dark_invert=[true]) %}
-**Figure 3.** Comparison of regret on empirical benchmarks, in order to evaluate potential behavior in practice.
+**Figure 4.** Comparison of regret on empirical benchmarks, in order to evaluate potential behavior in practice.
 {% end %}
 
 The results show that at least one of our priors shows matching or better performance in almost all cases, while baselines perform inconsistently across problem sets.
