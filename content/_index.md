@@ -73,7 +73,7 @@ $$
 ```
 where `$\alpha$` is a randomly-sampled optimum height and `$n$` is a warping function.
 If `$n$` is the identity, this is simply a quadratic.
-To obtain a more general prior with distortions, we take `$n$` to be an untrained normalizing flow.
+To obtain a more general prior with distortions, we take `$n$` to be an untrained normalizing flow [^real-nvp].
 Its randomly initialized weights create a random warping, while we can still control its strength with the standard deviation of the normal distribution where we initialize the weights.
 Since this is a bijective transformation, the unimodality is still preserved.
 
@@ -81,7 +81,7 @@ Since this is a bijective transformation, the unimodality is still preserved.
 **Figure 2.** A few sampled functions from the unimodal and EWP priors in 2D.
 {% end %}
 
-We also propose two wiggle priors based on GPs using random Fourier features (RFFs) in the paper.
+We also propose two wiggle priors based on GPs using random Fourier features (RFFs) [^rffs] in the paper.
 One uses a fixed lengthscale with RFFs, and the other uses different lengthscales for different frequencies in RFFs.
 
 # Experiments
@@ -123,7 +123,6 @@ We believe that our work suggests one principled way to build such a dataset, an
 
 # References
 
-[^simple-regret]: See Chapter 10 of the *Bayesian Optimization* book.
 [^bayesopt-book]: R. Garnett. Bayesian Optimization. Cambridge University Press, 2023.
 [^ddom]: S. Krishnamoorthy, S. M. Mashkaria, and A. Grover. Diffusion Models for Black-Box Optimization. International Conference on Machine Learning, 2023.
 [^dibo]: T. Yun, K. Om, J. Lee, S. Yun, and J. Park. Posterior Inference with Diffusion Models for High-Dimensional Black-Box Optimization. International Conference on Machine Learning, 2025
@@ -136,5 +135,4 @@ We believe that our work suggests one principled way to build such a dataset, an
 [^flow-matching]: Y. Lipman, R. T. Q. Chen, H. Ben-Hamu, M. Nickel, and M. Le. Flow Matching for Generative Modeling. International Conference on Learning Representations, 2023
 [^rffs]: A. Rahimi and B. Recht. Random Features for Large-Scale Kernel Machines. Advances in Neural Information Processing Systems, 2007
 [^real-nvp]: L. Dinh, J. Sohl-Dickstein, and S. Bengio. Density Estimation Using Real NVP. International Conference on Learning Representations, 2017
-[^scaling-law]: J. Hoffmann, S. Borgeaud, A. Mensch, E. Buchatskaya, T. Cai, E. Rutherford, D. de Las Casas, L. A. Hendricks, J. Welbl, A. Clark, T. Hennigan, E. Noland, K. Millican, G. van den Driessche, B. Damoc, A. Guy, S. Osindero, K. Simonyan, E. Elsen, O. Vinyals, J. W. Rae, and L. Sifre. An Empirical Analysis of Compute-Optimal Large Language Model Training. Advances in Neural Information Processing Systems, 2022
 
