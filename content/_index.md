@@ -10,7 +10,7 @@ authors = [
 ]
 venue = {name = "NeurIPS", date = 2026-12-06, url = "https://neurips.cc/Conferences/2026"}
 buttons = [
-    {name = "Paper", url = "https://arxiv.org/pdf/2611.14656"},
+    {name = "Paper", url = "https://arxiv.org/abs/2611.14656"},
     {name = "PDF", url = "https://arxiv.org/pdf/2611.14656"},
     {name = "Code", url = "https://github.com/sihwa-park/PFN-Thompson-Sampling"},
 ]
