@@ -77,7 +77,7 @@ To obtain a more general prior with distortions, we take `$n$` to be an untraine
 Its randomly initialized weights create a random warping, while we can still control its strength with the standard deviation of the normal distribution where we initialize the weights.
 Since this is a bijective transformation, the unimodality is still preserved.
 
-{% figure(alt=["Prior-examples"], src=["prior_3d.svg"], dark_invert=[true]) %}
+{% figure(alt=["Prior-examples"], src=["prior_samples.svg"], dark_invert=[true]) %}
 **Figure 2.** A few sampled functions from the unimodal and EWP priors in 2D.
 {% end %}
 
